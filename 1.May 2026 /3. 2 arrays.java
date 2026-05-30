@@ -1,50 +1,41 @@
-import java.util.*;
+import java.io.*;
 
-class TestClass {
-
-    static long nCr(long n, long r) {
-        if (r < 0 || r > n) return 0;
-
-        r = Math.min(r, n - r);
-
-        long ans = 1;
-
-        for (long i = 1; i <= r; i++) {
-            ans = ans * (n - r + i) / i;
-        }
-
-        return ans;
-    }
-
+public class TestClass {
     public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String s = br.readLine();
 
-        Scanner sc = new Scanner(System.in);
+        int n = s.length();
 
-        int n = sc.nextInt();
+        int balance = 0;
+        int minPrefix = Integer.MAX_VALUE;
 
-        long sumA = 0;
-        long sumB = 0;
-
-        int x = 0;
-        int y = 0;
-
+        // Find minimum prefix sum
         for (int i = 0; i < n; i++) {
-            int v = sc.nextInt();
-
-            if (v == -1)
-                x++;
-            else
-                sumA += v;
+            balance += (s.charAt(i) == '(') ? 1 : -1;
+            minPrefix = Math.min(minPrefix, balance);
         }
 
-        for (int i = 0; i < n; i++) {
-            int v = sc.nextInt();
-
-            if (v == -1)
-                y++;
-            else
-                sumB += v;
+        // If total balance is not zero, no rotation can be valid
+        if (balance != 0) {
+            System.out.println(0);
+            return;
         }
+
+        int count = 0;
+        balance = 0;
+
+        // Count occurrences of minimum prefix sum
+        for (int i = 0; i < n; i++) {
+            balance += (s.charAt(i) == '(') ? 1 : -1;
+            if (balance == minPrefix) {
+                count++;
+            }
+        }
+
+        System.out.println(count);
+    }
+}
 
         if (x > 0 && y > 0) {
             System.out.println("Infinite");
