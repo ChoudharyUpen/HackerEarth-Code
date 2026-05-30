@@ -1,45 +1,49 @@
+import java.io.*;
 
-import java.util.*;
+public class TestClass {
 
-class TestClass {
+    public static void main(String[] args) throws Exception {
 
-    static boolean isValid(String str) {
+        BufferedReader br =
+                new BufferedReader(new InputStreamReader(System.in));
 
-        int balance = 0;
-
-        for (int i = 0; i < str.length(); i++) {
-
-            if (str.charAt(i) == '(') {
-                balance++;
-            } else {
-                balance--;
-            }
-
-            if (balance < 0) {
-                return false;
-            }
-        }
-
-        return balance == 0;
-    }
-
-    public static void main(String[] args) {
-
-        Scanner sc = new Scanner(System.in);
-
-        String s = sc.next();
+        String s = br.readLine();
 
         int n = s.length();
-        int count = 0;
 
+        int balance = 0;
+        int minPrefix = Integer.MAX_VALUE;
+
+        // Find minimum prefix sum
         for (int i = 0; i < n; i++) {
 
-            String rotated =
-                    s.substring(i) + s.substring(0, i);
+            if (s.charAt(i) == '(')
+                balance++;
+            else
+                balance--;
 
-            if (isValid(rotated)) {
+            minPrefix = Math.min(minPrefix, balance);
+        }
+
+        // Total balance must be zero
+        if (balance != 0) {
+            System.out.println(0);
+            return;
+        }
+
+        balance = 0;
+        int count = 0;
+
+        // Count occurrences of minimum prefix
+        for (int i = 0; i < n; i++) {
+
+            if (s.charAt(i) == '(')
+                balance++;
+            else
+                balance--;
+
+            if (balance == minPrefix)
                 count++;
-            }
         }
 
         System.out.println(count);
