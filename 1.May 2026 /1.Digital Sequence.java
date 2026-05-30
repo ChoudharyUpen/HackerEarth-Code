@@ -1,4 +1,6 @@
 Pseudo Code Most important code of this program to revise
+important pattern
+
 
 
 
